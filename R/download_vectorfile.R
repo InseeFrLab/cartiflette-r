@@ -1,0 +1,91 @@
+#' Download and read a single geographical vector file from a generated URL.
+#'
+#' This function generates a URL using specified parameters and downloads a single
+#' geographical vector file from the URL. The downloaded file is then read into an
+#' R data frame using the 'sf' package.
+#'
+#' @inheritParams create_url_download
+#'
+#' @return An 'sf' data frame containing the downloaded geographical vector data.
+#'
+#' @seealso \code{\link{create_url_download}} for generating the download URL.
+#'
+#' @examples
+#' download_vectorfile_url_single()
+#' plot(sf::st_geometry(download_vectorfile_url_single()))
+#' df <- download_vectorfile_url_single(filter_by = "REGION", year = 2022, value = 52, crs = 4326)
+#' plot(sf::st_geometry(df))
+#' @export
+download_vectorfile_url_single <- function(
+    value = 75,
+    borders = "COMMUNE",
+    vectorfile_format="geojson",
+    filter_by = "DEPARTEMENT",
+    year = 2022,
+    provider = "IGN",
+    source = "EXPRESS-COG-CARTO-TERRITOIRE",
+    crs = 4326
+){
+
+  url <- create_url_download(
+    borders = borders,
+    vectorfile_format=vectorfile_format,
+    filter_by = filter_by,
+    year = year,
+    provider = provider,
+    source = source,
+    crs = crs,
+    value = value
+  )
+
+  df <- sf::st_read(url)
+
+  return(df)
+}
+
+#' Download a series of files from cartiflette project.
+#'
+#'
+#' @inheritParams download_vectorfile_url_single
+#'
+#' @return An 'sf' data frame containing the downloaded geographical vector data.
+#' @examples
+#' df <- download_vectorfile_url_all(
+#'    crs = 4326,
+#'    values = c("75", "92", "93", "94"),
+#'    borders="COMMUNE_ARRONDISSEMENT",
+#'    vectorfile_format="geojson",
+#'    filter_by="DEPARTEMENT",
+#'    source="EXPRESS-COG-CARTO-TERRITOIRE",
+#'    year=2022)
+#' plot(sf::st_geometry(df))
+#'
+#' @export
+download_vectorfile_url_all <- function(
+    values = c("28", "29"),
+    borders = "COMMUNE",
+    vectorfile_format="geojson",
+    filter_by = "DEPARTEMENT",
+    year = 2022,
+    provider = "IGN",
+    source = "EXPRESS-COG-CARTO-TERRITOIRE",
+    crs = 4326
+){
+
+  vectors <- lapply(
+    values,
+    download_vectorfile_url_single,
+    borders = borders,
+    vectorfile_format=vectorfile_format,
+    filter_by = filter_by,
+    year = year,
+    provider = provider,
+    source = source,
+    crs = crs
+  )
+
+  vectors <- bind_rows(vectors)
+
+  return(vectors)
+
+}
