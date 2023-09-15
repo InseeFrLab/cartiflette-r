@@ -84,7 +84,7 @@ download_vectorfile_url_all <- function(
     crs = crs
   )
 
-  vectors <- bind_rows(vectors)
+  vectors <- dplyr::bind_rows(vectors)
 
   return(vectors)
 
