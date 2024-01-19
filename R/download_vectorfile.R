@@ -46,11 +46,14 @@ download_vectorfile_url_single <- function(
 #' Download a series of files from cartiflette project.
 #'
 #'
+#' @rdname carti_download
 #' @inheritParams download_vectorfile_url_single
 #'
 #' @return An 'sf' data frame containing the downloaded geographical vector data.
+#' @note `download_vectorfile_url_all` is deprecated and will be removed in
+#'  a future version
 #' @examples
-#' df <- download_vectorfile_url_all(
+#' df <- carti_download(
 #'    crs = 4326,
 #'    values = c("75", "92", "93", "94"),
 #'    borders="COMMUNE_ARRONDISSEMENT",
@@ -61,7 +64,7 @@ download_vectorfile_url_single <- function(
 #' plot(sf::st_geometry(df))
 #'
 #' @export
-download_vectorfile_url_all <- function(
+carti_download <- function(
     values = c("28", "29"),
     borders = "COMMUNE",
     vectorfile_format="geojson",
@@ -88,4 +91,11 @@ download_vectorfile_url_all <- function(
 
   return(vectors)
 
+}
+
+#' @rdname carti_download
+#' @export
+download_vectorfile_url_all = function(...) {
+  .Deprecated("carti_download")
+  return(carti_download(...))
 }

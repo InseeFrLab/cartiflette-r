@@ -18,7 +18,7 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(cartiflette)
-df <- download_vectorfile_url_all(
+df <- carti_download(
     crs = 4326,
     values = c("75", "92", "93", "94"),
     borders="COMMUNE_ARRONDISSEMENT",
