@@ -23,30 +23,44 @@
 #' @export
 
 create_url_download <- function(
-    base_url = "https://minio.lab.sspcloud.fr/projet-cartiflette/production",
-    year = 2022,
-    borders = "COMMUNE_ARRONDISSEMENT",
-    crs = 4326,
-    vectorfile_format = "geojson",
-    filter_by = "DEPARTEMENT",
-    provider = "IGN",
-    source = "EXPRESS-COG-CARTO-TERRITOIRE",
-    value = 75
+  base_url = "https://minio.lab.sspcloud.fr",
+  year = 2022,
+  borders = "COMMUNE_ARRONDISSEMENT",
+  crs = 4326,
+  vectorfile_format = "geojson",
+  filter_by = "DEPARTEMENT",
+  provider = "IGN",
+  source = "EXPRESS-COG-CARTO-TERRITOIRE",
+  value = 75,
+  bucket = "projet-cartiflette",
+  path_within_bucket = "production",
+  dataset_family = "ADMINEXPRESS",
+  territory = "metropole",
+  simplification = "0.0",
+  filename = "raw"
 ) {
 
+  if (filename == "value"){
+    filename <- value
+  }
+
+  base_url_bucket <- glue::glue(
+    "{base_url}/{bucket}/{path_within_bucket}"
+  )
+
   download_link <- glue::glue(
-    "{base_url}/",
+    "{base_url_bucket}/",
     "provider%3D{provider}/",
-    "dataset_family%3DADMINEXPRESS/",
+    "dataset_family%3D{dataset_family}/",
     "source%3D{source}/",
     "year%3D{year}/",
     "administrative_level%3D{borders}/",
     "crs%3D{crs}/",
     "{filter_by}%3D{value}/",
     "vectorfile_format%3D{vectorfile_format}/",
-    "territory%3Dmetropole/",
-    "simplification%3D0.0/",
-    "raw.{vectorfile_format}"
+    "territory%3D{territory}/",
+    "simplification%3D{simplification}/",
+    "{filename}.{vectorfile_format}"
   )
 
   return(download_link)

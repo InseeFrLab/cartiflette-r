@@ -24,7 +24,13 @@ download_vectorfile_url_single <- function(
     year = 2022,
     provider = "IGN",
     source = "EXPRESS-COG-CARTO-TERRITOIRE",
-    crs = 4326
+    crs = 4326,
+    bucket = "projet-cartiflette",
+    path_within_bucket = "production",
+    dataset_family = "ADMINEXPRESS",
+    territory = "metropole",
+    simplification = "0.0",
+    filename = "raw"
 ){
 
   url <- create_url_download(
@@ -35,7 +41,12 @@ download_vectorfile_url_single <- function(
     provider = provider,
     source = source,
     crs = crs,
-    value = value
+    value = value,
+    path_within_bucket = path_within_bucket,
+    dataset_family = dataset_family,
+    territory = territory,
+    simplification = simplification,
+    filename = filename
   )
 
   df <- sf::st_read(url)
@@ -72,19 +83,30 @@ carti_download <- function(
     year = 2022,
     provider = "IGN",
     source = "EXPRESS-COG-CARTO-TERRITOIRE",
-    crs = 4326
+    crs = 4326,
+    bucket = "projet-cartiflette",
+    path_within_bucket = "production",
+    dataset_family = "ADMINEXPRESS",
+    territory = "metropole",
+    simplification = "0.0",
+    filename = "raw"
 ){
 
   vectors <- lapply(
     values,
     download_vectorfile_url_single,
     borders = borders,
-    vectorfile_format=vectorfile_format,
+    vectorfile_format = vectorfile_format,
     filter_by = filter_by,
     year = year,
     provider = provider,
     source = source,
-    crs = crs
+    crs = crs,
+    path_within_bucket = path_within_bucket,
+    dataset_family = dataset_family,
+    territory = territory,
+    simplification = simplification,
+    filename = filename
   )
 
   vectors <- dplyr::bind_rows(vectors)
@@ -95,7 +117,7 @@ carti_download <- function(
 
 #' @rdname carti_download
 #' @export
-download_vectorfile_url_all = function(...) {
+download_vectorfile_url_all <- function(...) {
   .Deprecated("carti_download")
   return(carti_download(...))
 }
