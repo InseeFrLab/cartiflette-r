@@ -9,7 +9,7 @@ You can install the development version of cartiflette from [GitHub](https://git
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("linogaliana/cartiflette-r")
+devtools::install_github("inseefrlab/cartiflette-r")
 ```
 
 ## Example
