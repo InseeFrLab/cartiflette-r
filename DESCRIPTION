@@ -1,16 +1,35 @@
 Package: cartiflette
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Official French Borders for Geographic Data Analytics
+Version: 0.2.0
+Authors@R: c(
+    person("Lino", "Galiana", email = "lino.galiana@insee.fr", role = c("aut", "cre")),
+    person("Thomas", "Grandjean", email = "thomas.grandjean@developpement-durable.gouv.fr", role = "aut"),
+    person("Alica", "Burlot", email = "alica.burlot@developpement-durable.gouv.fr", role = "aut")
+    )
+Description: Downloads the official French borders (IGN ADMIN EXPRESS COG
+    CARTO, enriched with Insee metadata) published by the cartiflette project:
+    communes, municipal arrondissements, IRIS, departements, regions and Insee
+    zonings, with or without the overseas departements brought closer to
+    metropolitan France. The GeoParquet files are read with DuckDB, which only
+    downloads the requested polygons.
+URL: https://github.com/InseeFrLab/cartiflette-r, https://inseefrlab.github.io/cartiflette/
+BugReports: https://github.com/InseeFrLab/cartiflette-r/issues
+License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
-Imports: 
-    dplyr,
-    glue,
+Depends:
+    R (>= 4.1)
+Imports:
+    curl,
+    DBI,
+    duckdb (>= 1.5.0),
+    jsonlite,
     sf
-RoxygenNote: 7.3.0
+Suggests:
+    dbplyr,
+    dplyr,
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
